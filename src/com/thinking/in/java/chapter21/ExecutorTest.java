@@ -1,6 +1,8 @@
 package com.thinking.in.java.chapter21;
 
+import java.util.Random;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Util.println;
 
@@ -22,7 +24,7 @@ public class ExecutorTest {
 
         ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
 
-        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(2);
+        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(5);
 
         ExecutorService singleThreadPool = Executors.newSingleThreadExecutor();
         /**
@@ -44,16 +46,34 @@ public class ExecutorTest {
          * param7 拒绝执行的回调：当线程池满了或者任务队列满了，会回调这个方法以通知调用者当前线程池已无法执行更多任务了
          *        ThreadPoolExecutor的默认实现出现这种情况时会抛出 RejectedExecutionException异常
          */
-        ThreadPoolExecutor myThreadPool = new ThreadPoolExecutor(2, 10, 30, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>(15));
+        ThreadPoolExecutor myThreadPool = new ThreadPoolExecutor(
+                5,
+                10,
+                30,
+                TimeUnit.SECONDS,
+                new SynchronousQueue<>(),
+                new MyThreadFactory());
 
-        for (int i=0;i<15;i++){
 
-            myThreadPool.execute(new Task());
+        ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) myThreadPool;
+//        ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) cachedThreadPool;
+//        ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) fixedThreadPool;
+//        ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) singleThreadPool;
+
+        println("startBefore==="+threadPoolExecutor.toString());
+
+        for (int i=0;i<10;i++){
+
+            threadPoolExecutor.execute(new Task());
+        }
+
+        while (true){
             try {
-                Thread.sleep(4000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            println("startAfter==="+threadPoolExecutor.toString());
         }
 
     }
@@ -64,6 +84,56 @@ public class ExecutorTest {
         @Override
         public void run() {
             println("Thread name: "+Thread.currentThread().getName());
+
+            try {
+                Random random = new Random();
+                int second = random.nextInt(10);
+
+                Thread.sleep(second*1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+//            for (int i=0;i<1000;i++){
+//                Random random = new Random();
+//                Integer d = Math.abs(random.nextInt());
+//            }
         }
     }
+
+    /**
+     * 自定义线程工程，这样可以自定义线程的名称
+     */
+    public static class MyThreadFactory implements ThreadFactory{
+        private String namePrefix;
+        private static final AtomicInteger poolNumber = new AtomicInteger(1);
+        private final AtomicInteger threadNumber = new AtomicInteger(1);
+
+        private ThreadGroup group;
+
+        public MyThreadFactory() {
+            SecurityManager s = System.getSecurityManager();
+            group = (s != null) ? s.getThreadGroup() :
+                    Thread.currentThread().getThreadGroup();
+
+            namePrefix = "lj-poolNum-" +
+                    poolNumber.getAndIncrement() +
+                    "-thread-";
+        }
+        @Override
+        public Thread newThread(Runnable r) {
+            Thread t = new Thread(group, r,
+                    namePrefix + threadNumber.getAndIncrement(),
+                    0);
+            if (t.isDaemon()){
+                t.setDaemon(false);
+            }
+            if (t.getPriority() != Thread.NORM_PRIORITY){
+                t.setPriority(Thread.NORM_PRIORITY);
+            }
+            return t;
+        }
+
+    }
+
 }
