@@ -17,15 +17,12 @@ public class ThreadLocalTest {
 
     public static void main(String[] args){
 
-        //用Executors创建的线程池 ， 允许创建的线程数量为 Integer.MAX_VALUE ，可能会创建大量线程，从而导致OOM。所以尽量收到创建
+        //用Executors创建的线程池 ， 允许创建的线程数量为 Integer.MAX_VALUE ，可能会创建大量线程，从而导致OOM。所以尽量手动创建
         ExecutorService executorService = Executors.newCachedThreadPool();
 
 
-//        new ThreadPoolExecutor();
-
         for (int i=0 ; i<10; i++){
-
-            Thread thread = new Thread(new Runnable() {
+            executorService.execute(new Runnable() {
                 @Override
                 public void run() {
                     //打印默认的 formatter
@@ -37,10 +34,9 @@ public class ThreadLocalTest {
                     //打印当前线程的 formatter
                     System.out.println("Thread Name= "+Thread.currentThread().getName()+" formatter = "+formatter.get().toPattern());
                 }
-            },""+i);
+            });
 
             threadSleep();
-            thread.start();
         }
     }
 

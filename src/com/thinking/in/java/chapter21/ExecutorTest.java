@@ -102,7 +102,7 @@ public class ExecutorTest {
     }
 
     /**
-     * 自定义线程工程，这样可以自定义线程的名称
+     * 自定义线程工厂，这样可以自定义线程的名称
      */
     public static class MyThreadFactory implements ThreadFactory{
         private String namePrefix;
