@@ -10,7 +10,9 @@ import java.util.concurrent.Executors;
  *
  * 变量声明为volatile，这就指示 JVM，这个变量是不稳定的，每次使用它都到主存中进行读取。
  * volatile 关键字的主要作用就是保证变量的可见性然后还有一个作用是防止指令重排序。
- * 不能保证原子性
+ * volatile 对单个变量的读写具有原子性
+ * volatile++ 不能保证原子性
+ *
  **/
 public class VolatileTest {
 

@@ -1,6 +1,10 @@
 package com.thinking.in.java.chapter21;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author : LiJun
  * @date : 2019-08-13 15:17
@@ -17,58 +21,75 @@ package com.thinking.in.java.chapter21;
  **/
 public class ThreadTest {
 
+    static Object lock = new Object();
+    static boolean flag = true;
+
     public static void main(String[] args) throws InterruptedException {
 
         //测试 wait 和 notify
-        WaitTest waitTest = new WaitTest();
-        waitTest.testWait();
+      new Thread(new Wait()).start();
+
+      TimeUnit.SECONDS.sleep(1);
+
+      new Thread(new Notify()).start();
 
         //测试 join
 //        testJoin();
 
     }
 
-    public static class WaitTest{
+    public static class Wait implements Runnable{
 
-        public void testWait() throws InterruptedException {
+        @Override
+        public void run() {
+            //获取对象锁
+            synchronized (lock){
+                //判断是否满足条件，不满足则等待
+                if (flag){
+                    try {
+                        System.out.println(Thread.currentThread()
+                                +" flag is true. wait @ "+new SimpleDateFormat("HH:mm:ss").format(new Date()));
 
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    System.out.println("线程-start");
+                        //调用 wait 方法，该线程会释放对象锁
+                        lock.wait();
 
-                    startWait();
-
-                    System.out.println("线程-end");
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-            });
-            thread.start();
-            System.out.println("主线程");
 
-            Thread.sleep(2000);
-
-            //唤醒线程时必须加锁，而且是和 wait 加的是同一对象的锁
-            synchronized (this){
-                notify();
+                //条件满足,执行任务
+                System.out.println("执行任务----");
             }
         }
+    }
 
-        private void startWait(){
-            System.out.println("Start-----wait");
-            //wait 时必须加锁
-            synchronized (this){
+    public static class Notify implements Runnable{
+
+        @Override
+        public void run() {
+            //获取对象锁
+            synchronized (lock){
+                System.out.println(Thread.currentThread()
+                        +" hold lock notify @ "+new SimpleDateFormat("HH:mm:ss").format(new Date()));
+                //修改条件
+                flag = false;
+                //通知
+                lock.notifyAll();
+
                 try {
-                    wait();
+                    TimeUnit.SECONDS.sleep(5);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-            System.out.println("End-------wait");
         }
     }
 
 
-
+    /**
+     * 测试 Join 方法
+     */
     private static void testJoin(){
 
         Thread thread1 = new Thread(new Runnable() {
@@ -95,4 +116,5 @@ public class ThreadTest {
         thread2.start();
         thread1.start();
     }
+
 }
