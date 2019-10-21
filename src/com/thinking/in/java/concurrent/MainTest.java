@@ -1,4 +1,4 @@
-package com.thinking.in.java.chapter21;
+package com.thinking.in.java.concurrent;
 
 import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Util.println;
 

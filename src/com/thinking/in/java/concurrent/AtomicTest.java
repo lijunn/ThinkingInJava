@@ -1,4 +1,4 @@
-package com.thinking.in.java.chapter21;
+package com.thinking.in.java.concurrent;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

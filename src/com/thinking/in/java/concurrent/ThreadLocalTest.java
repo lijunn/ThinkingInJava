@@ -1,4 +1,4 @@
-package com.thinking.in.java.chapter21;
+package com.thinking.in.java.concurrent;
 
 import java.text.SimpleDateFormat;
 import java.util.Random;
