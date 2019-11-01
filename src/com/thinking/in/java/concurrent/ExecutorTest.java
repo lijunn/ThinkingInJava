@@ -47,11 +47,11 @@ public class ExecutorTest {
          *        ThreadPoolExecutor的默认实现出现这种情况时会抛出 RejectedExecutionException异常
          */
         ThreadPoolExecutor myThreadPool = new ThreadPoolExecutor(
-                5,
-                10,
+                2,
+                4,
                 30,
                 TimeUnit.SECONDS,
-                new SynchronousQueue<>(),
+                new LinkedBlockingQueue<>(),
                 new MyThreadFactory());
 
 
