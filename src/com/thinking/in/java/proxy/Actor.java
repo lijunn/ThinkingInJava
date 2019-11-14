@@ -1,4 +1,4 @@
-package com.thinking.in.java.agent;
+package com.thinking.in.java.proxy;
 
 /**
  * @author : LiJun

@@ -1,4 +1,4 @@
-package com.thinking.in.java.agent;
+package com.thinking.in.java.proxy;
 
 /**
  * @author : LiJun
@@ -7,11 +7,11 @@ package com.thinking.in.java.agent;
 public class ActorA implements Actor {
     @Override
     public void play() {
-        System.out.println("com.agent.ActorA play");
+        System.out.println("com.proxy.ActorA play");
     }
 
     @Override
     public void playB() {
-        System.out.println("com.agent.ActorA play B");
+        System.out.println("com.proxy.ActorA play B");
     }
 }
