@@ -1,4 +1,4 @@
-//package com.thinking.in.java.equals;
+package com.lijun.learn.equals;//package com.thinking.in.java.equals;
 //
 //import javax.swing.tree.TreeNode;
 //import java.awt.*;
