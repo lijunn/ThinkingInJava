@@ -10,8 +10,10 @@ package com.lijun.pattern.singleton.hungry;
  **/
 public class HungrySingleton {
 
+    /**需要添加 final 防止被反射修改*/
     private static final HungrySingleton INSTANCE = new HungrySingleton();
 
+    /**私有化构造函数*/
     private HungrySingleton() {
     }
 
