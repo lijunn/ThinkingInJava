@@ -11,13 +11,13 @@ package com.lijun.pattern.singleton.hungry;
 public class HungrySingleton {
 
     /**需要添加 final 防止被反射修改*/
-    private static final HungrySingleton INSTANCE = new HungrySingleton();
+    private static final HungrySingleton instance = new HungrySingleton();
 
     /**私有化构造函数*/
     private HungrySingleton() {
     }
 
     public static HungrySingleton getInstance(){
-        return INSTANCE;
+        return instance;
     }
 }

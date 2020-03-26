@@ -9,15 +9,15 @@ package com.lijun.pattern.singleton.lazy;
  **/
 public class LazySimpleSingleton {
 
-    private static LazySimpleSingleton INSTANCE;
+    private static LazySimpleSingleton instance;
 
     private LazySimpleSingleton(){}
 
     public static synchronized LazySimpleSingleton getInstance(){
-        if (null == INSTANCE){
-            INSTANCE = new LazySimpleSingleton();
+        if (null == instance){
+            instance = new LazySimpleSingleton();
         }
-        return INSTANCE;
+        return instance;
     }
 
 }

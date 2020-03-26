@@ -8,16 +8,17 @@ package com.lijun.pattern.singleton.hungry;
  **/
 public class HungryStaticSingleton {
 
-    private static HungryStaticSingleton INSTANCE;
+    /**需要添加 final 防止被反射修改*/
+    private static final HungryStaticSingleton instance;
 
-    {
-        INSTANCE = new HungryStaticSingleton();
+    static {
+        instance = new HungryStaticSingleton();
     }
 
     private HungryStaticSingleton() {
     }
 
     public static HungryStaticSingleton getInstance(){
-        return INSTANCE;
+        return instance;
     }
 }
