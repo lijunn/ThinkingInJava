@@ -1,9 +1,7 @@
-package com.lijun.pattern.singleton.lazy;
+package com.lijun.pattern.singleton;
 
 
-import com.lijun.pattern.singleton.ExecutorThread;
-
-public class LazySingletonTest {
+public class SingletonTest {
 
 
     public static void main(String[] args) {
@@ -11,6 +9,6 @@ public class LazySingletonTest {
         Thread thread2= new Thread(new ExecutorThread());
         thread1.start();
         thread2.start();
-    }
 
+    }
 }

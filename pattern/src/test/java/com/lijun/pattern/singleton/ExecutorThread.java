@@ -3,6 +3,7 @@ package com.lijun.pattern.singleton;
 import com.lijun.pattern.singleton.lazy.LazyDoubleCheckSingleton;
 import com.lijun.pattern.singleton.lazy.LazyInnerClassSingleton;
 import com.lijun.pattern.singleton.register.EnumSingleton;
+import com.lijun.pattern.singleton.threadlocal.ThreadLocalSingleton;
 
 /**
  * @author : LiJun
@@ -18,8 +19,15 @@ public class ExecutorThread implements Runnable {
 //        LazyInnerClassSingleton instance = LazyInnerClassSingleton.getInstance();
 
         //枚举单例
-        EnumSingleton instance = EnumSingleton.getInstance();
+//        EnumSingleton instance = EnumSingleton.getInstance();
 
-        System.out.println(instance);
+//        System.out.println(instance);
+
+
+        //ThreadLocal 单例 ,同一个线程每次获取的都是同一个对象
+        System.out.println(Thread.currentThread().getName()+":"+ThreadLocalSingleton.getInstance());
+        System.out.println(Thread.currentThread().getName()+":"+ThreadLocalSingleton.getInstance());
+        System.out.println(Thread.currentThread().getName()+":"+ThreadLocalSingleton.getInstance());
+
     }
 }
