@@ -4,6 +4,9 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pattern/pom.xml" />
+        <option value="$PROJECT_DIR$/lj-spring/pom.xml" />
+        <option value="$PROJECT_DIR$/lj-base/pom.xml" />
+        <option value="$PROJECT_DIR$/lj-pattern/pom.xml" />
       </list>
     </option>
   </component>
