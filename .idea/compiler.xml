@@ -14,7 +14,12 @@
     <bytecodeTargetLevel>
       <module name="lj-base" target="1.8" />
       <module name="lj-pattern" target="1.8" />
-      <module name="lj-spring" target="1.5" />
+      <module name="lj-spring" target="1.6" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="lj-spring" options="-verbose -bootclasspath /Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/rt.jar" />
+    </option>
   </component>
 </project>
