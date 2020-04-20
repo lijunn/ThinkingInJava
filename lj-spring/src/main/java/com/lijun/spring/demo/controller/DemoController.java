@@ -19,7 +19,13 @@ public class DemoController {
     IDemoService demoService;
 
     @GPRequestMapping("/getName")
-    public String getName(@GPRequestParam(value = "name") String name){
-        return demoService.getName(name);
+    public String getName(@GPRequestParam(value = "name") String name,@GPRequestParam(value = "age") Integer age){
+        return demoService.getName(name,age);
+    }
+
+    @GPRequestMapping("/add")
+    public String add(@GPRequestParam(value = "a") Integer a,@GPRequestParam(value = "b") Integer b){
+        int sum = a+b;
+        return "a + b = "+sum;
     }
 }

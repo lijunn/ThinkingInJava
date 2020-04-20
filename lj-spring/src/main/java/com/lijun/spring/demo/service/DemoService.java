@@ -8,7 +8,7 @@ import com.lijun.spring.mvcframework.annotation.GPService;
  **/
 @GPService
 public class DemoService implements IDemoService {
-    public String getName(String name) {
-        return "My Name is "+name;
+    public String getName(String name,Integer age) {
+        return "My Name is "+name+" ,age = "+age;
     }
 }

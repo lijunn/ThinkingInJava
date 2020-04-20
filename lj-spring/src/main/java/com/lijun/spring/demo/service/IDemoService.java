@@ -6,5 +6,5 @@ package com.lijun.spring.demo.service;
  **/
 public interface IDemoService {
 
-    String getName(String name);
+    String getName(String name,Integer age);
 }

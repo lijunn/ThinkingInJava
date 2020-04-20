@@ -34,7 +34,10 @@ public class GPDispatchServlet extends HttpServlet {
     private Map<String,Object> ioc = new HashMap<String,Object>();
 
     /**HandlerMapping*/
-    private Map<String,Method> handlerMapping = new HashMap<String, Method>();
+//    private Map<String,Method> handlerMapping = new HashMap<String, Method>();
+
+    /**HandlerMapping*/
+    private List<HandlerMapping> handlerMapping = new ArrayList<HandlerMapping>();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,21 +46,74 @@ public class GPDispatchServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Map<String,String[]> params = req.getParameterMap();
-        Method method = handlerMapping.get(req.getRequestURI());
-        String beanName = tolowerFirstCase(method.getDeclaringClass().getSimpleName());
+        //匹配url
+        String requestURI = req.getRequestURI();
 
-        Object instance = ioc.get(beanName);
-        try {
-            String result = (String) method.invoke(instance, new Object[]{params.get("name")[0]});
+        for (HandlerMapping handler:handlerMapping){
+            if (!requestURI.equals(handler.getUrl())){continue;}
+            Method method = handler.getMethod();
 
-            resp.getWriter().write(result);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            //参数1：url中传入的实参
+            Map<String,String[]> urlParams = req.getParameterMap();
+            //参数2：方法的形参列表
+            Class<?> [] parameterTypes = method.getParameterTypes();
+            //参数3：方法中注解参数位置
+            Map<Integer, String> paramIndex = handler.getParamIndex();
+            //参数4：保存赋值参数
+            Object[] paramValues = new Object[parameterTypes.length];
+
+            for (int i = 0;i < parameterTypes.length;i++){
+                Class<?> parameterType = parameterTypes[i];
+                if (parameterType == HttpServletRequest.class){
+                    paramValues[i] = req;
+                }else if (parameterType == HttpServletResponse.class){
+                    paramValues[i] = resp;
+                }else{
+                    //根据形参位置获取被注解的参数的名称
+                    String annotationParamName = paramIndex.get(i);
+                    if (urlParams.containsKey(annotationParamName)){
+
+                        //实参的 param.getValue() 是一个数组，将其转换为字符串
+                        String strParam = Arrays.toString(urlParams.get(annotationParamName)).replaceAll("\\[|\\]", " ").trim();
+
+                        //url传入的参数都是String类型的，这里转换为方法参数要进行类型转换
+                        paramValues[i] = convert(strParam,parameterType);
+
+                    }else {
+                        //没有注解的参数传空
+                        paramValues[i] = null;
+                    }
+                }
+            }
+
+            try {
+                Object result = method.invoke(handler.getTarget(),paramValues);
+
+                resp.getWriter().write(result.toString());
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
         }
-        System.out.println("  ");
+        //2.类型转换
+        //3.正则
+    }
+
+    /**
+     * 参数类型转换策略
+     * @param pa
+     * @param parameterType
+     * @return
+     */
+    private Object convert(String pa, Class<?> parameterType) {
+        if (parameterType == String.class){
+            return String.valueOf(pa);
+        }else if (parameterType == Integer.class){
+            return Integer.valueOf(pa);
+        }else {
+            return pa;
+        }
     }
 
     @Override
@@ -219,7 +275,8 @@ public class GPDispatchServlet extends HttpServlet {
                 String methodUrl = annotation.value().trim();
                 String url = "/"+baseUrl+"/"+methodUrl;
                 url = url.replaceAll("/+","/");
-                handlerMapping.put(url,method);
+
+                handlerMapping.add(new HandlerMapping(url,method,entry.getValue()));
             }
         }
     }
