@@ -1,8 +1,13 @@
 package com.lj.springboot.di;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author : LiJun
@@ -23,6 +28,16 @@ public class Car {
     Wheel wheel;
 
     Clutch clutch;
+
+    /**
+     * 普通属性注入
+     */
+    @Value(value = "${car.brand}")
+    String carBrand;
+    @Value(value = "#{${car.colorList}}")
+    ArrayList colorList;
+    @Value(value = "#{${car.modelMap}}")
+    Map<String,String> modelMap;
 
     public Car() {
     }
@@ -58,6 +73,11 @@ public class Car {
                 "\nengine    = " + engine +
                 "\nwheel     = " + wheel +
                 "\nclutch    = " + clutch +
+                "\ncarBrand    = " + carBrand +
+                "\ncolorList    = " + colorList +
+                "\nmodelMap    = " + modelMap +
                 "\n}";
     }
+
+
 }

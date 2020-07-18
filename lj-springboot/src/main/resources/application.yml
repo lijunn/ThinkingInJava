@@ -1,0 +1,10 @@
+#颜色列表
+car:
+  brand: '特使拉'
+  colorList: "{'read','black','white'}"
+  modelMap: "{S:'Model S',X:'Model X',Y:'Model Y'}"
+
+
+
+
+
