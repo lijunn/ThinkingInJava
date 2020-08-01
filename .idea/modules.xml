@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ThinkingInJava.iml" filepath="$PROJECT_DIR$/ThinkingInJava.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lj-base/lj-base.iml" filepath="$PROJECT_DIR$/lj-base/lj-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lj-pattern/pattern.iml" filepath="$PROJECT_DIR$/lj-pattern/pattern.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lj-spring/lj-spring.iml" filepath="$PROJECT_DIR$/lj-spring/lj-spring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lj-springboot/lj-springboot.iml" filepath="$PROJECT_DIR$/lj-springboot/lj-springboot.iml" />
+    </modules>
+  </component>
+</project>
