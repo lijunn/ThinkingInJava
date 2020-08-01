@@ -42,11 +42,11 @@ public class StringTest {
         System.out.println(ssr == ssr2);//false
 
 
-        (b)->{
-            System.out.println(2);
-        }
-        int a = 1;
-        test(a,);
+//        (b)->{
+//            System.out.println(2);
+//        }
+//        int a = 1;
+//        test(a,);
 
     }
 
