@@ -1,4 +1,4 @@
-package com.lijun.learn.concurrent;
+package com.lijun.learn.concurrent.thread;
 
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 
