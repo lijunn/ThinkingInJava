@@ -21,6 +21,8 @@ import java.lang.reflect.Proxy;
  * 2.将源码写成 $Proxy0.java 文件(后面数字)
  * 3.编译代理对象源码生成 $Proxy0.class 文件
  * 4.使用类加载器加载代理对象到内存，并返回代理对象
+ *
+ * 注意：构造函数也会被代理，所以 invoke 方法一开始会被调用一下，用于创建代理对象
  **/
 public class JDKMeiPo implements InvocationHandler {
 
