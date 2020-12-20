@@ -18,16 +18,16 @@ public class DynamicProxyTest {
 
     class DynamicProxy {
 
-        public Object getProxyObj(Object target) throws Exception{
-            Class<?> clazz = target.getClass();
-            Class<?>[] interfaces = clazz.getInterfaces();
-            if (interfaces == null || interfaces.length == 0){
-                throw new Exception("can not find interface");
-            }
-            interfaces[0];
-
-            return null;
-        }
+//        public Object getProxyObj(Object target) throws Exception{
+//            Class<?> clazz = target.getClass();
+//            Class<?>[] interfaces = clazz.getInterfaces();
+//            if (interfaces == null || interfaces.length == 0){
+//                throw new Exception("can not find interface");
+//            }
+//            interfaces[0];
+//
+//            return null;
+//        }
 
     }
 

@@ -1,10 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
-.idea/inspectionProfiles/
-.idea/vcs.xml
-.idea/workspace.xml
 .mvn/
 mvnw
 mvnw.cmd
 src/test/
 
-.idea
+.idea/
