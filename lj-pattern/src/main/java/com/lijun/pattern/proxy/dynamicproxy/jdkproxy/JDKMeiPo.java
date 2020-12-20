@@ -1,6 +1,8 @@
 package com.lijun.pattern.proxy.dynamicproxy.jdkproxy;
 
 
+import com.lijun.pattern.proxy.dynamicproxy.Girl;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -36,6 +38,7 @@ public class JDKMeiPo implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        System.out.println("invoke:"+method.getName());
 
         beforeMethod();
         Object result = method.invoke(obj, args);
@@ -52,5 +55,10 @@ public class JDKMeiPo implements InvocationHandler {
         System.out.println("媒婆：ok的话准备办事");
     }
 
+
+    public static void main(String[] args) {
+        JDKMeiPo jdkMeiPo = new JDKMeiPo();
+        Object proxyInstance = jdkMeiPo.getProxyInstance(new Girl());
+    }
 
 }
