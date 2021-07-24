@@ -1,8 +1,8 @@
-package com.lijun.learn.chapter10;
+package com.lijun.learn.innerClass;
 
-import com.lijun.learn.chapter10.multiple.D;
-import com.lijun.learn.chapter10.multiple.E;
-import com.lijun.learn.chapter10.multiple.Z;
+import com.lijun.learn.innerClass.multiple.D;
+import com.lijun.learn.innerClass.multiple.E;
+import com.lijun.learn.innerClass.multiple.Z;
 
 public class MainTest {
 

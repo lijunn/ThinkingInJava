@@ -1,4 +1,4 @@
-package com.lijun.learn.chapter10.multiple;
+package com.lijun.learn.innerClass.multiple;
 
 import static com.lijun.learn.PrintUtil.print;
 

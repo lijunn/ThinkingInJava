@@ -1,4 +1,4 @@
-package com.lijun.learn.chapter08;
+package com.lijun.learn.construcorInit;
 
 import static com.lijun.learn.PrintUtil.print;
 
@@ -11,6 +11,7 @@ public class PolyConstructors {
 
         RoundGlyph roundGlyph = new RoundGlyph(5);
 
+        roundGlyph.getInnerClassStatic();
     }
 
     static class GlyphValue{
@@ -32,6 +33,15 @@ public class PolyConstructors {
 
         Glyph(){
             print("Glyph init");
+        }
+
+        GlyphValue getInnerClassStatic(){
+            return InnerClass.innerClassStatic;
+        }
+
+        //静态内部类，只有在被第一次使用时才会被初始化
+        private static class InnerClass{
+            public static GlyphValue innerClassStatic = new GlyphValue("innerClassStatic");
         }
     }
 

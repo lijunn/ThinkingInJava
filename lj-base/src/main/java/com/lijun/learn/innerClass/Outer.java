@@ -1,4 +1,4 @@
-package com.lijun.learn.chapter10;
+package com.lijun.learn.innerClass;
 
 import static com.lijun.learn.PrintUtil.print;
 
