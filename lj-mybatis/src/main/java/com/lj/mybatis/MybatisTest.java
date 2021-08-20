@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.lj.mybatis.mapper.UserMapper;
 import com.lj.mybatis.vo.User;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.builder.xml.XMLMapperBuilder;
 import org.apache.ibatis.datasource.unpooled.UnpooledDataSource;
 import org.apache.ibatis.mapping.Environment;
@@ -26,7 +27,20 @@ import java.sql.SQLException;
 /**
  * @author : LiJun
  * @date : 2021-08-19 10:39
+ *
+ * Mybatis 缓存：
+ * 一级缓存：
+ *      - 实现方式：BaseExecutor 实现的
+ *      - 开关：默认开启，无开关
+ *
+ * 二级缓存：
+ *      - 实现方式：CacheExecutor 实现的，使用装饰模式 装饰BaseExecutor
+ *      - 开关：
+ *          1.Configuration cacheEnabled配置 ,控制是否使用 CacheExecutor 装饰
+ *          2.Mapper.xml <Cache/> 标签 ,控制整个Mapper 所有的语句
+ *          3.Mapper.xml 方法上 useCache 属性,控制具体的方法
  **/
+@Slf4j
 public class MybatisTest {
 
     public static String url = "jdbc:mysql://127.0.0.1:3306/mydb?useUnicode=true&characterEncoding=utf8&useSSL=false";
@@ -94,12 +108,20 @@ public class MybatisTest {
             xmlMapperBuilder.parse();
         }
 
+        //设置缓存
+        configuration.setCacheEnabled(false);
+
         //创建 SqlSessionFactory
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
         //获取 session 、Mapper 代理对象，执行方法
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        User user = sqlSession.getMapper(UserMapper.class).getUserById(1L);
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 
-        System.out.println(JSON.toJSONString(user));
+        User user1 = userMapper.getUserById(1L);
+        log.info("第一次次查询：{}",user1);
+
+        User user2 = userMapper.getUserById(2L);
+        log.info("第二次查询：{}",user2);
+
     }
 }
