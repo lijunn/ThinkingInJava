@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+/lj-springboot/.mvn/
+/lj-spring/.mvn/
+/lj-springboot/mvnw
+/lj-springboot/mvnw.cmd
