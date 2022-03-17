@@ -26,16 +26,23 @@ public class ThreadTest {
 
     public static void main(String[] args) throws InterruptedException {
 
-        //测试 wait 和 notify
-      new Thread(new Wait()).start();
 
-      TimeUnit.SECONDS.sleep(1);
-
-      new Thread(new Notify()).start();
+//        testWaitNotify();
 
         //测试 join
 //        testJoin();
 
+        testSleep();
+    }
+
+
+    public static void testWaitNotify() throws InterruptedException {
+        //测试 wait 和 notify
+        new Thread(new Wait()).start();
+
+        TimeUnit.SECONDS.sleep(1);
+
+        new Thread(new Notify()).start();
     }
 
     public static class Wait implements Runnable{
@@ -117,4 +124,37 @@ public class ThreadTest {
         thread1.start();
     }
 
+    public static void testSleep(){
+        Thread thread1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("线程1-开始运行");
+                synchronized (lock){
+                    System.out.println("线程1");
+                    try {
+                        lock.wait(5000);
+                        System.out.println("线程1-继续执行");
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        Thread thread2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("线程2-开始运行");
+                synchronized (lock){
+//                    lock.notify();
+                    System.out.println("线程2-唤醒");
+                }
+            }
+        });
+        thread1.start();
+        thread2.start();
+
+    }
+
 }
+
+

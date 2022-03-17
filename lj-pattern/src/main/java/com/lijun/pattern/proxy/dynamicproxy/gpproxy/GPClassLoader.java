@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 /**
  * @author : LiJun
  * @date : 2020-04-01 10:57
+ * 自定义类加载器，用于加载 GPProxy 动态生成的代理类
  **/
 public class GPClassLoader extends ClassLoader{
 
