@@ -13,5 +13,6 @@
         <module>lj-pattern</module>
         <module>lj-spring</module>
         <module>lj-springboot</module>
+        <module>lj-mybatis</module>
     </modules>
 </project>
