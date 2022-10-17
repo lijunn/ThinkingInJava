@@ -1,4 +1,4 @@
-package com.lijun.learn.nio;
+package com.lijun.learn.io.nio;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;

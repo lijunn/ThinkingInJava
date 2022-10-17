@@ -1,8 +1,4 @@
-package com.lijun.learn.String;
-
-import com.sun.org.apache.regexp.internal.RETest;
-
-import java.util.ArrayList;
+package com.lijun.learn.string;
 
 /**
  * @author : LiJun

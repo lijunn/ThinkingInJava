@@ -1,4 +1,4 @@
-package com.lijun.learn.nio;
+package com.lijun.learn.io.nio;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
