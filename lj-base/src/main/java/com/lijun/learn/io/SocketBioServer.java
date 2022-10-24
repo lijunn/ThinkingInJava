@@ -16,6 +16,7 @@ public class SocketBioServer {
             //监听端口
             serverSocket = new ServerSocket(8090);
 
+            //阻塞服务端方便测试，控制台回车后继续执行
             System.in.read();
 
             while (true){
