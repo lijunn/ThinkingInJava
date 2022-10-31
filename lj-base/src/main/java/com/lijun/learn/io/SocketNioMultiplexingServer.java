@@ -1,5 +1,6 @@
 package com.lijun.learn.io;
 
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -15,38 +16,58 @@ public class SocketNioMultiplexingServer {
 
     public static void main(String[] args) {
         try {
+
+            // 获得一个文件描述符 fd7
             ServerSocketChannel ss = ServerSocketChannel.open();
             ss.bind(new InetSocketAddress(8090));
             ss.configureBlocking(false);
 
             /*
              * 创建多路复用器
-             * select/poll: 在jvm创建集合
+             * select/poll: jvm里开辟一个数组
              * poll : epoll_create 在内核中创建红黑树
              */
             Selector selector = Selector.open();
 
-            //将 ss 注册为 accept 状态，并添加到 selector 中
+            /*
+             * 注册事件
+             * select/poll：将 fd7 添加到 jvm 的数组里
+             * epoll： 调用 epoll_ctl(fd3,ADD,fd7,EPOLLIN)
+             */
             ss.register(selector, SelectionKey.OP_ACCEPT);
 
             System.out.println("服务器启动了。。。。。");
 
-            //阻塞方法，selector 中存在有状态的 socket 则返回值大于0
+
+            /*
+             * 调用多路复用器
+             * select() 或 select(0) : 没有事件时会一直阻塞
+             * select(100) : 阻塞100毫秒
+             *
+             * select/poll : 调用内核的 select（fd4）,  poll(fd4)
+             * epoll :  调用内核的 epoll_wait()
+             */
             while (selector.select() > 0){
                 Set<SelectionKey> selectionKeys = selector.selectedKeys();
+                System.out.println("selector size :"+selectionKeys.size());
                 Iterator<SelectionKey> iterator = selectionKeys.iterator();
-                SelectionKey key = iterator.next();
-                selectionKeys.remove(key);
 
-                if (key.isAcceptable()){
-                    //获得连接事件
-                    acceptHandler(key);
+                while (iterator.hasNext()){
+                    SelectionKey key = iterator.next();
+                    iterator.remove();
 
-                }else if (key.isReadable()){
-                    //可读事件
-                    readHandler(key);
-                }else if (key.isConnectable()){
-                    System.out.println(key.toString()+"isConnectable");
+                    if (key.isAcceptable()){
+                        //获得连接事件
+                        acceptHandler(key);
+                    }else if (key.isReadable()){
+                        //可读事件
+                        readHandler(key);
+                    }else if (key.isWritable()){
+                        //写事件
+                        writableHandler(key);
+                    }else if (key.isConnectable()){
+                        System.out.println(key.toString()+"isConnectable");
+                    }
                 }
             }
         } catch (IOException e) {
@@ -82,18 +103,55 @@ public class SocketNioMultiplexingServer {
 
             ByteBuffer buffer = ByteBuffer.allocate(1024);
             //读取数据
-            int num = socket.read(buffer);
-            //打印数据
-            if (num > 0){
-                buffer.flip();
-                byte[] chars = new byte[buffer.limit()];
-                buffer.get(chars);
+            while(true){
+                int num = socket.read(buffer);
+                if (num > 0){
+                    //将数据写回客户端
+                    socket.register(key.selector(),SelectionKey.OP_WRITE,buffer);
 
-                System.out.println("" + new String(chars));
-                buffer.clear();
-            }else if (num == -1){
-                System.out.println("client close");
+                    //打印数据
+                    buffer.flip();
+                    byte[] chars = new byte[buffer.limit()];
+                    buffer.get(chars);
+                    System.out.println("read from client: " + new String(chars));
+                    buffer.clear();
+                }else if (num == 0){
+                    break;
+                }else if (num == -1){
+                    System.out.println("client close");
+                    key.cancel();
+                    break;
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 写事件的触发机制：我们注册了写事件 并且 send-queue 有空间
+     * 所以我们要注意写事件的注册时机，只有我们想写的时候才去注册。
+     * 因为我们没有写的时候 send-queue 一直是空的，所以一旦注册了写事件，就会一直循环写事件，
+     * 所以当我们写完时要及时调用个 key.cancel() 关闭事件，或者注册读事件
+     */
+    private static void writableHandler(SelectionKey key) {
+        SocketChannel client = (SocketChannel) key.channel();
+        try {
+            client.configureBlocking(false);
+
+            ByteBuffer buffer = (ByteBuffer) key.attachment();
+            byte[] chars = new byte[buffer.limit()];
+            buffer.get(chars);
+            System.out.println("write to client: " + new String(chars));
+
+            buffer.flip();
+            while (buffer.hasRemaining()) {
+                client.write(buffer);
+            }
+            buffer.clear();
+
+            //重新注册读事件
+            client.register(key.selector(),SelectionKey.OP_READ);
         } catch (IOException e) {
             e.printStackTrace();
         }
