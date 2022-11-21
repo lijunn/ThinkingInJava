@@ -43,16 +43,16 @@ import java.sql.SQLException;
 @Slf4j
 public class MybatisTest {
 
-    public static String url = "jdbc:mysql://127.0.0.1:3306/mydb?useUnicode=true&characterEncoding=utf8&useSSL=false";
+    public static String url = "jdbc:mysql://127.0.0.1:3306/mydb?useUnicode=true&characterEncoding=utf8";
     public static String user = "root";
-    public static String pwd = "root";
+    public static String pwd = "123456";
     public static String driver = "com.mysql.jdbc.Driver";
 
     public static void main(String[] args) throws SQLException, IOException {
         //jdbc 连接数据库
-//        testJdbc();
+        testJdbc();
         //mybatis
-        mybatisTest();
+//        mybatisTest();
 
 
 //        InputStream resourceAsStream = Resources.getResourceAsStream(MybatisTest.class.getClassLoader(), "com/lj/mybatis/mapper/UserMapper.xml");
