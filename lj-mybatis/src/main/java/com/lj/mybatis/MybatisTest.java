@@ -1,9 +1,10 @@
 package com.lj.mybatis;
 
-import com.alibaba.fastjson.JSON;
 import com.lj.mybatis.mapper.UserMapper;
+import com.lj.mybatis.plugins.ExecutorIntercept;
+import com.lj.mybatis.plugins.ParameterHandlerIntercept;
 import com.lj.mybatis.vo.User;
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import com.mysql.cj.jdbc.MysqlDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.builder.xml.XMLMapperBuilder;
 import org.apache.ibatis.datasource.unpooled.UnpooledDataSource;
@@ -19,10 +20,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * @author : LiJun
@@ -50,33 +48,26 @@ public class MybatisTest {
 
     public static void main(String[] args) throws SQLException, IOException {
         //jdbc 连接数据库
-        testJdbc();
+//        testJdbc();
+
         //mybatis
-//        mybatisTest();
-
-
-//        InputStream resourceAsStream = Resources.getResourceAsStream(MybatisTest.class.getClassLoader(), "com/lj/mybatis/mapper/UserMapper.xml");
-//        URL resource2 = MybatisTest.class.getClassLoader().getResource("UserMapper.xml");
-//        System.out.println(resource2);
-//        System.out.println(resourceAsStream);
-
-
+        mybatisTest();
     }
 
     public static void testJdbc() throws SQLException {
-        String sql = "select * from user";
+        String sql = "select * from user where id = ?";
         //创建数据源
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setURL(url);
 
-        //获得数据库连接
+        //1.获取数据库连接
         Connection conn = dataSource.getConnection(user, pwd);
-        //创建预处理语句
-        PreparedStatement st = conn.prepareStatement(sql);
-        //执行sql获取结果
-        ResultSet rs = st.executeQuery();
-
-        //处理结果集
+        //2.获取预处理语句,处理参数
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setLong(1,2);
+        //3.执行sql获取结果
+        ResultSet rs = ps.executeQuery();
+        //4.处理结果集
         while (rs.next()){
             String name = rs.getString("name");
             String age = rs.getString("age");
@@ -85,14 +76,15 @@ public class MybatisTest {
 
         //关闭资源
         rs.close();
-        st.close();
+        ps.close();
         conn.close();
     }
 
     public static void mybatisTest() throws IOException {
-        //初始化数据源
+        //1.加载mysql驱动，初始化数据源
         DataSource dataSource = new UnpooledDataSource(driver,url,user,pwd);
-        //初始化 Configuration
+
+        //2.初始化配置
         TransactionFactory transactionFactory = new JdbcTransactionFactory();
         Environment environment = new Environment("development", transactionFactory, dataSource);
         Configuration configuration = new Configuration(environment);
@@ -107,21 +99,32 @@ public class MybatisTest {
                     configuration, resource.toString(), configuration.getSqlFragments());
             xmlMapperBuilder.parse();
         }
-
         //设置缓存
         configuration.setCacheEnabled(false);
 
-        //创建 SqlSessionFactory
+        //设置自定义插件
+        ExecutorIntercept plugin1 = new ExecutorIntercept();
+        configuration.addInterceptor(plugin1);
+
+        ParameterHandlerIntercept plugin2 = new ParameterHandlerIntercept();
+        configuration.addInterceptor(plugin2);
+
+        //3.创建 SqlSessionFactory
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-        //获取 session 、Mapper 代理对象，执行方法
+
+        //4.获取 session ，查找 Mapper 代理对象，执行具体方法
         SqlSession sqlSession = sqlSessionFactory.openSession();
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 
-        User user1 = userMapper.getUserById(1L);
-        log.info("第一次次查询：{}",user1);
+//        User user1 = userMapper.getUserById(1L);
+//        log.info("第一次次查询：{}",user1);
+//
+//        User user2 = userMapper.getUserById(2L);
+//        log.info("第二次查询：{}",user2);
 
-        User user2 = userMapper.getUserById(2L);
-        log.info("第二次查询：{}",user2);
+
+        User user1 = userMapper.getUser("xiaoma",25);
+        log.info("第一次次查询：{}",user1);
 
     }
 }

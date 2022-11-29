@@ -1,6 +1,10 @@
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author : LiJun
@@ -9,30 +13,43 @@ import java.math.RoundingMode;
 public class Test {
 
     public static void main(String[] args) {
-//        String str = "abc";
-//        String str2 = "abc";
+        int f = 0x14141414;
+        int i = 0333;
+
+        int f2 = 0xDDDD;
+//        int x2 = 0xDDDD;
+
+        System.out.println(Integer.toBinaryString(i));
+        System.out.println(i);
+//        System.out.println(Integer.toBinaryString(x));
+//        System.out.println(Integer.toHexString(336860180));
 //
-//        Byte b = 2;
-//        Boolean bo = true;
-//        Person fff = new Person("fff");
-//        Person eee = new Person("eee");
-//
-//        System.out.println(fff == eee);
-//        System.out.println(fff.hashCode());
-//        System.out.println(eee.hashCode());
-
-        BigDecimal codeDiscount = new BigDecimal("7.7");
+//        System.out.println(Integer.toBinaryString(f2));
+//        System.out.println(f2);
+    }
 
 
-        BigDecimal unit = BigDecimal.valueOf(999);
-
-        BigDecimal divide = BigDecimal.TEN.subtract(codeDiscount).divide(BigDecimal.TEN);
-
-        BigDecimal bigDecimal = unit.multiply(divide).setScale(0, RoundingMode.UP);
+    public static class Person{
 
 
-        System.out.println(divide.toPlainString());
-        System.out.println(bigDecimal.toPlainString());
+        int age;
+        String name;
+
+        public int getAge() {
+            return age;
+        }
+
+        public void setAge(int age) {
+            this.age = age;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 
     public static String appendStr(String s){
@@ -40,11 +57,5 @@ public class Test {
         return s;
     }
 
-    public static class Person{
-        String name;
 
-        public Person(String name) {
-            this.name = name;
-        }
-    }
 }

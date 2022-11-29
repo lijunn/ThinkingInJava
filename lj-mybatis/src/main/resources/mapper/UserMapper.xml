@@ -8,6 +8,17 @@
         select * from user u where u.id = #{id}
     </select>
 
+    <select id="getUser" resultType="com.lj.mybatis.vo.User" useCache="false">
+        select * from user u
+        <where>
+            <if test="name != null">
+                u.name = #{name}
+            </if>
+            <if test="age != null">
+                and u.name = #{age}
+            </if>
+        </where>
+    </select>
 
     <insert id="addUser">
         insert into user(name,age) value (#{user.name},#{user.age})

@@ -18,6 +18,8 @@ public interface UserMapper {
 
     User getUserById(Long id);
 
+    User getUser(String name,Integer age);
+
 //    @Flush
     void addUser(@Param("user") User user);
 }
