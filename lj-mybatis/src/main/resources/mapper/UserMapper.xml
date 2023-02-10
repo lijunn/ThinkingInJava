@@ -15,7 +15,7 @@
                 u.name = #{name}
             </if>
             <if test="age != null">
-                and u.name = #{age}
+                and u.age = #{age}
             </if>
         </where>
     </select>
