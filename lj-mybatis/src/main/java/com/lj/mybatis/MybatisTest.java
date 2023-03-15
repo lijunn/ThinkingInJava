@@ -3,6 +3,7 @@ package com.lj.mybatis;
 import com.lj.mybatis.mapper.UserMapper;
 import com.lj.mybatis.plugins.ExecutorIntercept;
 import com.lj.mybatis.plugins.ParameterHandlerIntercept;
+import com.lj.mybatis.plugins.ResultIntercept;
 import com.lj.mybatis.vo.User;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import lombok.extern.slf4j.Slf4j;
@@ -106,7 +107,7 @@ public class MybatisTest {
         ExecutorIntercept plugin1 = new ExecutorIntercept();
         configuration.addInterceptor(plugin1);
 
-        ParameterHandlerIntercept plugin2 = new ParameterHandlerIntercept();
+        ResultIntercept plugin2 = new ResultIntercept();
         configuration.addInterceptor(plugin2);
 
         //3.创建 SqlSessionFactory
