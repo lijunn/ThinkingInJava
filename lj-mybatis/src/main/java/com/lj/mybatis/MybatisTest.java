@@ -16,6 +16,8 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
+import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
+import org.mybatis.spring.transaction.SpringManagedTransactionFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
@@ -86,7 +88,12 @@ public class MybatisTest {
         DataSource dataSource = new UnpooledDataSource(driver,url,user,pwd);
 
         //2.初始化配置
+        //mybatis 自己管理事务
         TransactionFactory transactionFactory = new JdbcTransactionFactory();
+        //将事务委托给 Spring 来管理
+//        TransactionFactory transactionFactory = new SpringManagedTransactionFactory();
+        //自定义事务管理逻辑
+//        TransactionFactory transactionFactory = new ManagedTransactionFactory();
         Environment environment = new Environment("development", transactionFactory, dataSource);
         Configuration configuration = new Configuration(environment);
 
