@@ -1,8 +1,6 @@
-package com.lijun.db.redis.queue;
+package com.lijun.db.redis.mq;
 
 import cn.hutool.core.date.DateUtil;
-
-import java.util.Date;
 
 /**
  * @author : LiJun

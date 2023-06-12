@@ -1,4 +1,4 @@
-package com.lijun.db.redis.queue;
+package com.lijun.db.redis.mq;
 
 import cn.hutool.core.date.DateUtil;
 

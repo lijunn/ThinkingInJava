@@ -1,14 +1,7 @@
-package com.lijun.db.redis.queue;
-
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.resps.Tuple;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+package com.lijun.db.redis.mq;
 
 /**
+ * 用redis实现延时消息队列
  * @author : LiJun
  * @date : 2023-06-01 10:19
  **/

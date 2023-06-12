@@ -1,10 +1,9 @@
-package com.lijun.db.redis.queue;
+package com.lijun.db.redis.mq;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.resps.Tuple;
 
 import java.util.HashMap;
 import java.util.List;
