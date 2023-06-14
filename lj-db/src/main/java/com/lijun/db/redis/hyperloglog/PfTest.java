@@ -1,68 +1,22 @@
 package com.lijun.db.redis.hyperloglog;
 
-import java.util.concurrent.ThreadLocalRandom;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 /**
- * 模拟 HyperLogLog 算法
  * @author : LiJun
- * @date : 2023-06-05 10:57
+ * @date : 2023-06-13 12:03
  **/
 public class PfTest {
 
-    static class BitKeeper {
-        private int maxbits;
+    public static void main(String[] args) {
+        JedisPool pool = new JedisPool("localhost", 6379);
 
-        /**
-         * 随机一个数，获取地位连续为0的个数
-         */
-        public void random() {
-            long value = ThreadLocalRandom.current().nextLong(2L << 32);
-            int bits = lowZeros(value);
-            if (bits > this.maxbits) {
-                this.maxbits = bits;
-            }
-        }
-
-        /**
-         * 计算出低位连续为0的个数
-         * 先左移一位然后再右移一位，如果和原数相同则表示为连续0
-         */
-        public int lowZeros(long value) {
-            int i = 1;
-            for (; i < 32; i++) {
-                if (value >> i << i != value) {
-                    break;
-                }
-            }
-            return i - 1;
-        }
-    }
-
-    static class Experiment {
-        private int n;
-        private BitKeeper keeper;
-
-        public Experiment(int n) {
-            this.n = n;
-            this.keeper = new BitKeeper();
-        }
-
-        //随机取n个随机数，计算低位连续为0的最大个数
-        public void work() {
-            for (int i = 0; i < n; i++) {
-                this.keeper.random();
-            }
-        }
-
-        public void debug() {
-            System.out.printf("%d %.2f %d\n", this.n, Math.log(this.n) / Math.log(2), this.keeper.maxbits);
-        }
-
-        public static void main(String[] args) {
-            for (int i = 1000; i < 100000; i += 100) {
-                Experiment exp = new Experiment(i);
-                exp.work();
-                exp.debug();
+        try (Jedis jedis = pool.getResource()){
+            for (int i=1;i<=10000;i++){
+                jedis.pfadd("uv","user"+i);
+                long uv = jedis.pfcount("uv");
+                System.out.println("total:"+i+"  uv:"+uv);
             }
         }
     }
