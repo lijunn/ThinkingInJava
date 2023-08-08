@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 /**
  * @author lijun
  */
+@MapperScan({"com.lj.mybatis.mapper"})
 @EnableTransactionManagement
 @SpringBootApplication
 public class LjMybatisApplication {

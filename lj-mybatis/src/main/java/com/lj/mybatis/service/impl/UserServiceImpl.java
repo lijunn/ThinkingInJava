@@ -13,7 +13,7 @@ import javax.annotation.Resource;
  * @date : 2021-08-20 11:39
  **/
 @Service
-@Transactional(rollbackFor = Exception.class)
+//@Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
 
     @Resource

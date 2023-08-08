@@ -51,10 +51,10 @@ public class MybatisTest {
 
     public static void main(String[] args) throws SQLException, IOException {
         //jdbc 连接数据库
-//        testJdbc();
+        testJdbc();
 
         //mybatis
-        mybatisTest();
+//        mybatisTest();
     }
 
     public static void testJdbc() throws SQLException {
@@ -124,15 +124,16 @@ public class MybatisTest {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 
-//        User user1 = userMapper.getUserById(1L);
-//        log.info("第一次次查询：{}",user1);
-//
-//        User user2 = userMapper.getUserById(2L);
-//        log.info("第二次查询：{}",user2);
-
-
-        User user1 = userMapper.getUser("xiaoma",25);
+        User user1 = userMapper.getUserById(1L);
         log.info("第一次次查询：{}",user1);
+
+        UserMapper userMapper2 = sqlSessionFactory.openSession().getMapper(UserMapper.class);
+        User user2 = userMapper2.getUserById(1L);
+        log.info("第二次查询：{}",user2);
+
+
+//        User user1 = userMapper.getUser("xiaoma",25);
+//        log.info("第一次次查询：{}",user1);
 
     }
 }
