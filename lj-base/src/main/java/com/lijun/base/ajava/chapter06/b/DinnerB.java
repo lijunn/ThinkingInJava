@@ -1,6 +1,6 @@
-package com.lijun.base.chapter06.b;
+package com.lijun.base.ajava.chapter06.b;
 
-import com.lijun.base.chapter06.a.Cookie;
+import com.lijun.base.ajava.chapter06.a.Cookie;
 
 /**
  * 不同包下，权限访问

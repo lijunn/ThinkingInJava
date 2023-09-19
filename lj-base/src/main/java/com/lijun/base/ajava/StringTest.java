@@ -1,4 +1,4 @@
-package com.lijun.base.string;
+package com.lijun.base.ajava;
 
 /**
  * @author : LiJun

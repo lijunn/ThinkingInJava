@@ -1,8 +1,8 @@
-package com.lijun.base.innerClass;
+package com.lijun.base.ajava.innerClass;
 
-import com.lijun.base.innerClass.multiple.D;
-import com.lijun.base.innerClass.multiple.E;
-import com.lijun.base.innerClass.multiple.Z;
+import com.lijun.base.ajava.innerClass.multiple.D;
+import com.lijun.base.ajava.innerClass.multiple.E;
+import com.lijun.base.ajava.innerClass.multiple.Z;
 
 public class MainTest {
 

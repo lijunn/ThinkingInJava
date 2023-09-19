@@ -1,4 +1,4 @@
-package com.lijun.base.construcorInit;
+package com.lijun.base.jvm;
 
 import static com.lijun.base.PrintUtil.print;
 

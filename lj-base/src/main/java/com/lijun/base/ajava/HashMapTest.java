@@ -1,4 +1,4 @@
-package com.lijun.base.equals;
+package com.lijun.base.ajava;
 
 import java.util.HashMap;
 
@@ -12,8 +12,8 @@ public class HashMapTest {
 
     public static void main(String[] args){
 
-        Key key1 = new Key(1);
-        Key key2 = new Key(1);
+        HashMapTest.Key key1 = new HashMapTest.Key(1);
+        HashMapTest.Key key2 = new HashMapTest.Key(1);
 
         println("k1.equals(k2) = "+key1.equals(key2));
         //打印结果： k1.equals(k2) = true
@@ -23,7 +23,7 @@ public class HashMapTest {
         Object o2 = new Object();
 
         //HashMap 的key 应该是唯一性，因为没有重写 hashCode 所以出现了同样的key
-        HashMap<Key, Object> hashMap = new HashMap<>();
+        HashMap<HashMapTest.Key, Object> hashMap = new HashMap<>();
         hashMap.put(key1,o1);
         hashMap.put(key2,o2);
 
@@ -32,7 +32,7 @@ public class HashMapTest {
 
     }
 
-    static class Key{
+    public static class Key{
 
         private int num;
 
@@ -50,6 +50,11 @@ public class HashMapTest {
                 return ((Key) obj).getNum() == this.num;
             }
             return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return super.hashCode();
         }
 
         @Override

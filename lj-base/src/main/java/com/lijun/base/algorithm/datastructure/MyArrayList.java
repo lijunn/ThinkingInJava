@@ -1,4 +1,4 @@
-package com.lijun.base.datastructure;
+package com.lijun.base.algorithm.datastructure;
 
 import java.util.AbstractList;
 import java.util.Arrays;

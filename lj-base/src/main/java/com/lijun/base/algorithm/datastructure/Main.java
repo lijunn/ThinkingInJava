@@ -1,4 +1,4 @@
-package com.lijun.base.datastructure;
+package com.lijun.base.algorithm.datastructure;
 
 /**
  * @author : LiJun

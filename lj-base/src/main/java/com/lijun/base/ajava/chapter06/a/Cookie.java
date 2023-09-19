@@ -1,4 +1,4 @@
-package com.lijun.base.chapter06.a;
+package com.lijun.base.ajava.chapter06.a;
 
 
 import static com.lijun.base.PrintUtil.print;

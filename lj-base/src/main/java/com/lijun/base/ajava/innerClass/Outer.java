@@ -1,4 +1,4 @@
-package com.lijun.base.innerClass;
+package com.lijun.base.ajava.innerClass;
 
 import static com.lijun.base.PrintUtil.print;
 
